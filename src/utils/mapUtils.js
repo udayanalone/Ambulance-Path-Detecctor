@@ -1,11 +1,29 @@
-// This is a mock implementation since we can't actually call Google Maps API
-// In a real app, you would use the Google Directions API
+
+export const getCurrentLocation = () => {
+  return new Promise((resolve, reject) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          resolve({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.error('Error getting location:', error);
+          reject(new Error('Current location is unavailable. Make sure that location services are enabled'));
+        }
+      );
+    } else {
+      reject(new Error('Geolocation is not supported by this browser.'));
+    }
+  });
+};
 
 export const searchLocation = async (query) => {
-  // Simulate API call delay
+
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
-  // Mock response - in a real app, you would call the Google Places API
   const mockLocations = {
     "City Hospital": { latitude: 37.78825, longitude: -122.4324 },
     "Central Medical Center": { latitude: 37.77825, longitude: -122.4224 },
@@ -14,11 +32,9 @@ export const searchLocation = async (query) => {
     "Trauma Center": { latitude: 37.80825, longitude: -122.4524 },
   }
 
-  // Return mock coordinates or generate random ones for unknown locations
   if (mockLocations[query]) {
     return mockLocations[query]
   } else {
-    // Generate a random location near the default region
     return {
       latitude: 37.78825 + (Math.random() - 0.5) * 0.02,
       longitude: -122.4324 + (Math.random() - 0.5) * 0.02,
@@ -27,11 +43,9 @@ export const searchLocation = async (query) => {
 }
 
 export const calculateRoute = async (origin, destination, isEmergencyMode) => {
-  // Simulate API call delay
   await new Promise((resolve) => setTimeout(resolve, 1500))
 
-  // In a real app, you would call the Google Directions API
-  // For now, we'll create a simple route with some random points
+  
 
   const numPoints = 10
   const route = []
@@ -39,8 +53,7 @@ export const calculateRoute = async (origin, destination, isEmergencyMode) => {
   for (let i = 0; i <= numPoints; i++) {
     const fraction = i / numPoints
 
-    // Add some randomness to make it look like a real route
-    const jitter = isEmergencyMode ? 0.0005 : 0.001 // Less jitter for emergency routes (more direct)
+    const jitter = isEmergencyMode ? 0.0005 : 0.001 
     const randomLat = (Math.random() - 0.5) * jitter
     const randomLng = (Math.random() - 0.5) * jitter
 

@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useRef, memo } from "react"
 import { TouchableOpacity, Text, StyleSheet, Animated, Easing } from "react-native"
 import { COLORS } from "../utils/theme"

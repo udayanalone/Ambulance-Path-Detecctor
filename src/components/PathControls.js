@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useCallback, memo } from "react"
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, Keyboard } from "react-native"
 import { COLORS } from "../utils/theme"

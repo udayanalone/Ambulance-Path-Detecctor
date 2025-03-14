@@ -1,9 +1,9 @@
-import { Platform, Alert, Linking } from "react-native"
-import * as Location from "expo-location"
+import { Platform, Alert, Linking } from "react-native";
+import * as Location from "expo-location";
 
 export const requestLocationPermission = async () => {
   try {
-    const { status: foregroundStatus } = await Location.requestForegroundPermissionsAsync()
+    const { status: foregroundStatus } = await Location.requestForegroundPermissionsAsync();
 
     if (foregroundStatus !== "granted") {
       Alert.alert(
@@ -15,29 +15,28 @@ export const requestLocationPermission = async () => {
             text: "Open Settings",
             onPress: () => {
               if (Platform.OS === "ios") {
-                Linking.openURL("app-settings:")
+                Linking.openURL("app-settings:");
               } else {
-                Linking.openSettings()
+                Linking.openSettings();
               }
             },
           },
-        ],
-      )
-      return false
+        ]
+      );
+      return false;
     }
 
-    // For better location tracking in the background (optional)
-    if (Platform.OS === "ios") {
-      const { status: backgroundStatus } = await Location.requestBackgroundPermissionsAsync()
+    // Request background location permission (Only required for Android)
+    if (Platform.OS === "android") {
+      const { status: backgroundStatus } = await Location.requestBackgroundPermissionsAsync();
       if (backgroundStatus !== "granted") {
-        console.log("Background location permission not granted")
+        console.warn("Background location permission not granted");
       }
     }
 
-    return true
+    return true;
   } catch (error) {
-    console.error("Error requesting location permission:", error)
-    return false
+    console.error("Error requesting location permission:", error);
+    return false;
   }
-}
-
+};
